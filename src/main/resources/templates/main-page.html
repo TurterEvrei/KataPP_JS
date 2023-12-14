@@ -112,12 +112,12 @@
                                       <label for="editUserPassword" class="form-label"><strong>Password</strong></label>
                                       <input type="password" class="form-control" id="editUserPassword" name="password">
                                     </div>
-                                    <div class="mb-3">
-                                      <label class="form-check-label" for="editUserActive">
-                                        <strong>Active</strong>
-                                      </label>
-                                      <input class="form-check-input" type="checkbox" id="editUserActive" name="active" th:checked="${user.isActive()}">
-                                    </div>
+<!--                                    <div class="mb-3">-->
+<!--                                      <label class="form-check-label" for="editUserActive">-->
+<!--                                        <strong>Active</strong>-->
+<!--                                      </label>-->
+<!--                                      <input class="form-check-input" type="checkbox" id="editUserActive" name="active" th:checked="${user.isActive()}">-->
+<!--                                    </div>-->
                                     <div class="mb-3">
                                       <label for="editUserRoles" class="form-label"><strong>Roles</strong></label>
                                       <select class="form-select" multiple aria-label="multiple select example" id="editUserRoles" name="roles" th:value="${user.roles}">
@@ -171,12 +171,12 @@
                                       <label for="deleteUserPassword" class="form-label"><strong>Password</strong></label>
                                       <input type="password" class="form-control" id="deleteUserPassword" name="password" disabled>
                                     </div>
-                                    <div class="mb-3">
-                                      <label class="deleteUserActive" for="editUserActive">
-                                        <strong>Active</strong>
-                                      </label>
-                                      <input class="form-check-input" type="checkbox" id="deleteUserActive" name="active" th:checked="${user.isActive()}" disabled>
-                                    </div>
+<!--                                    <div class="mb-3">-->
+<!--                                      <label class="deleteUserActive" for="editUserActive">-->
+<!--                                        <strong>Active</strong>-->
+<!--                                      </label>-->
+<!--                                      <input class="form-check-input" type="checkbox" id="deleteUserActive" name="active" th:checked="${user.isActive()}" disabled>-->
+<!--                                    </div>-->
                                     <div class="mb-3">
                                       <label for="deleteUserRoles" class="form-label"><strong>Roles</strong></label>
                                       <select class="form-select" multiple aria-label="multiple select example" id="deleteUserRoles" name="roles" th:value="${user.roles}" disabled>
@@ -231,12 +231,12 @@
                           <label for="addUserPassword" class="form-label"><strong>Password</strong></label>
                           <input type="password" class="form-control" id="addUserPassword" name="password">
                         </div>
-                        <div class="mb-3">
-                          <label class="form-check-label" for="addUserActive">
-                            <strong>Active</strong>
-                          </label>
-                          <input class="form-check-input" type="checkbox" id="addUserActive" name="active" checked>
-                        </div>
+<!--                        <div class="mb-3">-->
+<!--                          <label class="form-check-label" for="addUserActive">-->
+<!--                            <strong>Active</strong>-->
+<!--                          </label>-->
+<!--                          <input class="form-check-input" type="checkbox" id="addUserActive" name="active" checked>-->
+<!--                        </div>-->
                         <div class="mb-3">
                           <label for="addUserRoles" class="form-label"><strong>Roles</strong></label>
                           <select class="form-select" multiple aria-label="multiple select example" id="addUserRoles" name="roles">
@@ -283,7 +283,9 @@
                   <td th:text="${currentUser.name}"></td>
                   <td th:text="${currentUser.age}"></td>
                   <td th:text="${currentUser.email}"></td>
-                  <td th:text="${currentUser.roles}"></td>
+                  <td>
+                    <span th:each="role : ${currentUser.roles}" th:text="${role} + ' '"></span>
+                  </td>
                 </tr>
               </tbody>
             </table>

@@ -28,9 +28,6 @@ public class User implements UserDetails {
     @Column(name="password")
     private String password;
 
-    @Column(name="active")
-    private boolean active;
-
     @ElementCollection(targetClass = Role.class,
             fetch = FetchType.EAGER)
     @CollectionTable(name="user_role",
@@ -46,7 +43,6 @@ public class User implements UserDetails {
         this.age = age;
         this.email = email;
         this.password = password;
-        this.active = active;
         this.roles = roles;
     }
 
@@ -86,14 +82,6 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
     public Set<Role> getRoles() {
         return roles;
     }
@@ -118,7 +106,6 @@ public class User implements UserDetails {
                 ", age=" + age +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", active=" + active +
                 ", roles=" + roles +
                 '}';
     }
@@ -145,21 +132,21 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return active;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return active;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return active;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return active;
+        return true;
     }
 }
