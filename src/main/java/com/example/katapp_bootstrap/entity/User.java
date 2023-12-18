@@ -16,8 +16,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="name")
-    private String name;
+    @Column(name="lastName")
+    private String lastName;
 
     @Column(name="age")
     private Integer age;
@@ -38,8 +38,8 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String name, Integer age, String email, String password, boolean active, Set<Role> roles) {
-        this.name = name;
+    public User(String lastName, Integer age, String email, String password, boolean active, Set<Role> roles) {
+        this.lastName = lastName;
         this.age = age;
         this.email = email;
         this.password = password;
@@ -54,12 +54,12 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLastName(String name) {
+        this.lastName = name;
     }
 
     public Integer getAge() {
@@ -95,14 +95,14 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(age, user.age) && Objects.equals(email, user.email);
+        return Objects.equals(id, user.id) && Objects.equals(lastName, user.lastName) && Objects.equals(age, user.age) && Objects.equals(email, user.email);
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + lastName + '\'' +
                 ", age=" + age +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
@@ -112,7 +112,7 @@ public class User implements UserDetails {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, age, email);
+        return Objects.hash(id, lastName, age, email);
     }
 
     @Override

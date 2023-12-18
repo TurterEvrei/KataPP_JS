@@ -1,6 +1,7 @@
 package com.example.katapp_bootstrap.controller;
 
 import com.example.katapp_bootstrap.entity.Role;
+import com.example.katapp_bootstrap.entity.User;
 import com.example.katapp_bootstrap.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ public class UserController {
         model.addAttribute("Admin", Role.ADMIN);
         model.addAttribute("User", Role.USER);
         model.addAttribute("currentUser", userService.getUser(principal));
+        model.addAttribute("newUser", new User());
         return "main-page";
     }
 }
