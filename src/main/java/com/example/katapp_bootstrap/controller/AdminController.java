@@ -30,19 +30,19 @@ public class AdminController {
         return "admin-page";
     }
 
-    @PostMapping("user")
+    @PostMapping
     public String addUser(@ModelAttribute("user") User user) {
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
-    @PatchMapping("user")
+    @PatchMapping
     public String editUser(@ModelAttribute("user") User user) {
         userService.saveUser(user);
         return "redirect:/admin";
     }
 
-    @DeleteMapping("user")
+    @DeleteMapping
     public String deleteUser(@RequestParam("id") Long id) {
         userService.deleteUser(id);
         return "redirect:/admin";

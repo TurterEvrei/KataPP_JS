@@ -55,7 +55,7 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <form th:action="@{/admin/user}" th:method="'patch'">
+                                                        <form th:action="@{/admin}" th:method="'patch'">
                                                             <input type="text" class="form-control" id="editUserId" name="id" th:value="${user.id}" hidden>
                                                             <div class="mb-3">
                                                                 <label for="falseUserId" class="form-label"><strong>ID</strong></label>
@@ -109,7 +109,7 @@
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body text-center">
-                                                        <form th:action="@{/admin/user(id=${user.id})}" th:method="'delete'">
+                                                        <form th:action="@{/admin(id=${user.id})}" th:method="'delete'">
                                                             <div class="mb-3">
                                                                 <label for="falseDeleteUserId" class="form-label"><strong>ID</strong></label>
                                                                 <input type="text" class="form-control" id="falseDeleteUserId" th:value="${user.id}" disabled>
@@ -163,7 +163,7 @@
                             </div>
                             <div class="card-body text-center">
                                 <div class="row justify-content-center">
-                                    <form class="col-lg-6" th:action="@{/admin/user}" th:object="${newUser}" method="post">
+                                    <form class="col-lg-6" th:action="@{/admin}" th:object="${newUser}" method="post">
                                         <div class="mb-3">
                                             <label for="addUserName" class="form-label"><strong>Name</strong></label>
                                             <input type="text" class="form-control" id="addUserName" th:field="*{lastName}">
