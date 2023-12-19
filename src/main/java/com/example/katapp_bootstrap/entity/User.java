@@ -1,5 +1,6 @@
 package com.example.katapp_bootstrap.entity;
 
+import com.example.katapp_bootstrap.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

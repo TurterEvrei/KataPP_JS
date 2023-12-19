@@ -1,4 +1,4 @@
-package com.example.katapp_bootstrap.entity;
+package com.example.katapp_bootstrap.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 

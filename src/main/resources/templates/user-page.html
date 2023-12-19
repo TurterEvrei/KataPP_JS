@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="blocks/template :: common_template(~{::div},${currentUser})">
+<div class="tab-content col-10 bg-light p-3" id="v-pills-tabContent">
+    <!--      User profile-->
+    <div th:class="${!currentUser.roles.contains(Admin)} ? 'tab-pane fade show active' : 'tab-pane fade'" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab" sec:authorize="isAuthenticated()">
+        <h3>
+            User information-page
+        </h3>
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mt-1">About user</h4>
+            </div>
+            <div class="card-body">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Age</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Roles</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${currentUser.id}"></td>
+                        <td th:text="${currentUser.lastName}"></td>
+                        <td th:text="${currentUser.age}"></td>
+                        <td th:text="${currentUser.email}"></td>
+                        <td>
+                            <span th:each="role : ${currentUser.roles}" th:text="${role} + ' '"></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--      End user profile-->
+</div>
+</html>
