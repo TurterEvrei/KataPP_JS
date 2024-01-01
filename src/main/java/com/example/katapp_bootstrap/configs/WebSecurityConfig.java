@@ -17,23 +17,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomUserDetailsService userDetailsService;
-    private final SuccessUserHandler successUserHandler;
 
-    public WebSecurityConfig(CustomUserDetailsService userDetailsService, SuccessUserHandler successUserHandler) {
+    public WebSecurityConfig(CustomUserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-        this.successUserHandler = successUserHandler;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/user").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers("/api/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/api/user").hasAnyAuthority("ADMIN", "USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                .successHandler(successUserHandler)
                 .permitAll()
                 .and()
                 .logout()

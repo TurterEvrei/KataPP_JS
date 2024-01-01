@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>KataPP Bootstrap</title>
+</head>
+<body class="h-100">
+<header class="bd-header bg-dark py-3 d-flex align-items-stretch border-bottom border-dark">
+    <div class="container-fluid d-flex align-items-center">
+        <h1 id="header" class="d-flex align-items-center fs-4 mb-0">
+        </h1>
+        <a href="/logout" class="ms-auto link-light" hreflang="ar">Logout</a>
+    </div>
+</header>
+
+<div class="d-flex align-items-start h-100">
+    <!--    Side menu-->
+    <div class="nav flex-column nav-pills mt-2 col-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <button class="nav-link" id="v-pills-admin-tab"
+                data-bs-toggle="pill" data-bs-target="#v-pills-admin"
+                type="button" role="tab"
+                aria-controls="v-pills-admin" aria-selected="false">Admin</button>
+        <button class="nav-link" id="v-pills-user-tab"
+                data-bs-toggle="pill" data-bs-target="#v-pills-user"
+                type="button" role="tab"
+                aria-controls="v-pills-user" aria-selected="false">User</button>
+    </div>
+    <!--    End side menu-->
+    <div class="tab-content col-10 bg-light p-3" id="v-pills-tabContent">
+
+        <div class="tab-pane fade" id="v-pills-admin" role="tabpanel" aria-labelledby="v-pills-admin-tab" sec:authorize="hasAuthority('ADMIN')">
+            <h3>
+                Admin Panel
+            </h3>
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-usersTable-tab" data-bs-toggle="tab" data-bs-target="#nav-usersTable" type="button" role="tab" aria-controls="nav-usersTable" aria-selected="true">Users table</button>
+                    <button class="nav-link" id="nav-newUser-tab" data-bs-toggle="tab" data-bs-target="#nav-newUser" type="button" role="tab" aria-controls="nav-newUser" aria-selected="false">New User</button>
+                </div>
+            </nav>
+            <!--        Users table-->
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-usersTable" role="tabpanel" aria-labelledby="nav-usersTable-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mt-1">All users</h4>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Age</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Roles</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody id="usersTableBody">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--          End user table-->
+                <!--          New user form-->
+                <div class="tab-pane fade" id="nav-newUser" role="tabpanel" aria-labelledby="nav-newUser-tab">
+                    <div class="tab-content" id="nav-tabContentAddNewUser">
+                        <div class="tab-pane fade show active" id="nav-addNewUser" role="tabpanel" aria-labelledby="nav-usersTable-tab">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="mt-1">Add new user</h4>
+                                </div>
+                                <div class="card-body text-center">
+                                    <div class="row justify-content-center">
+                                        <form id="newUserForm" class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="addUserName" class="form-label"><strong>Name</strong></label>
+                                                <input type="text" class="form-control" id="addUserName" name="lastName">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="addUserAge" class="form-label"><strong>Age</strong></label>
+                                                <input type="number" class="form-control" id="addUserAge" name="age">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="addUserEmail" class="form-label"><strong>Email</strong></label>
+                                                <input type="email" class="form-control" id="addUserEmail" autocomplete="username" name="email">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="addUserPassword" class="form-label"><strong>Password</strong></label>
+                                                <input type="password" class="form-control" id="addUserPassword" autocomplete="new-password" name="password">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="addUserRoles" class="form-label"><strong>Roles</strong></label>
+                                                <select class="form-select" multiple aria-label="multiple select example" id="addUserRoles" name="roles">
+                                                </select>
+                                            </div>
+                                            <button id="newUserBtn" class="btn btn-success">Add new user</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--          End new user form-->
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab" sec:authorize="isAuthenticated()">
+            <h3>
+                User information-page
+            </h3>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mt-1">About user</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Roles</th>
+                        </tr>
+                        </thead>
+                        <tbody id="profileTableBody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  Modal edit user-->
+<div class="modal fade" id="modalUser" tabindex="-1" aria-labelledby="modalUser" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+            <div class="modal-header">
+                <h5 id="modalTitle" class="modal-title">Edit user</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="modalForm">
+                    <div class="mb-3">
+                        <label for="modalUserId" class="form-label"><strong>ID</strong></label>
+                        <input type="text" class="form-control" id="modalUserId" name="id">
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalUserName" class="form-label"><strong>Name</strong></label>
+                        <input type="text" class="form-control" id="modalUserName" name="lastName" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalUserAge" class="form-label"><strong>Age</strong></label>
+                        <input type="number" class="form-control" id="modalUserAge" name="age" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalUserEmail" class="form-label"><strong>Email</strong></label>
+                        <input type="email" class="form-control" id="modalUserEmail" name="email" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalUserPassword" class="form-label"><strong>Password</strong></label>
+                        <input type="password" class="form-control" id="modalUserPassword" name="password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalUserRoles" class="form-label"><strong>Roles</strong></label>
+                        <select class="form-select" multiple aria-label="multiple select example" id="modalUserRoles" name="roles">
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="submitBtn" class="btn btn-primary">Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!--                          End modal edit user-->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="module" th:src="@{js/main.js}"></script>
+</body>
+</html>

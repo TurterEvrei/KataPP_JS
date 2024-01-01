@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(User user) {
+    public User saveUser(User user) {
         if (user.getId() != null && user.getPassword().isEmpty()) {
             user.setPassword(userRepository.findById(user.getId()).orElseThrow(() ->
                     new UsernameNotFoundException("Can`t find user with id:" + user.getId() + " for editing")).getPassword());
@@ -49,11 +49,17 @@ public class UserServiceImpl implements UserService {
         if (user.getRoles().isEmpty()) {
             user.setRoles(Stream.of(Role.USER).collect(Collectors.toSet()));
         }
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public Boolean deleteUser(Long id) {
+        try {
+            userRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        }
     }
 }
