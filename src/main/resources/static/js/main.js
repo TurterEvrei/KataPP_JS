@@ -178,6 +178,10 @@ function renderNewUserForm() {
             ApiService.createUser(newUser).then((res) => {
                 if (res) {
                     store.setUserList([...store.getUserList(), res])
+                    $('#nav-usersTable-tab').addClass('active')
+                    $('#nav-usersTable').addClass('show active')
+                    $('#nav-newUser-tab').removeClass('active')
+                    $('#nav-newUser').removeClass('show active')
                 }
             })
         }
