@@ -7,9 +7,33 @@ class User {
     roles;
 }
 
+class Role {
+    id;
+    roleType;
+    // user;
+
+    constructor(roleType) {
+        this.roleType = roleType
+    }
+    // constructor(roleType, userId) {
+    //     this.roleType = roleType
+    //     // this.user = userId
+    // }
+}
+
 const ROLES = [
-    'ADMIN',
-    'USER'
+    {
+        id: null,
+        roleType: 'ADMIN'
+    }, {
+        id: null,
+        roleType: 'USER'
+    }
 ]
 
-export {User, ROLES}
+// const ROLES = [
+//     'ADMIN',
+//     'USER'
+// ]
+
+export {User, ROLES, Role}

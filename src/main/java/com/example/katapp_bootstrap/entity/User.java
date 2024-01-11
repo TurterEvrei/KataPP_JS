@@ -1,6 +1,5 @@
 package com.example.katapp_bootstrap.entity;
 
-import com.example.katapp_bootstrap.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -29,11 +28,8 @@ public class User implements UserDetails {
     @Column(name="password")
     private String password;
 
-    @ElementCollection(targetClass = Role.class,
-            fetch = FetchType.EAGER)
-    @CollectionTable(name="user_role",
-        joinColumns = @JoinColumn(name = "user_id"))
-    @Enumerated(EnumType.STRING)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Set<Role> roles = new HashSet<>();
 
     public User() {

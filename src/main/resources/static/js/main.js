@@ -1,6 +1,6 @@
 import {ApiService} from "./service.js";
 import Store from "./store.js";
-import {ROLES, User} from "./user.js";
+import {ROLES, User, Role} from "./user.js";
 
 const MODAL_TYPES = {
     EDIT: 'edit',
@@ -37,7 +37,7 @@ function renderHeader(user) {
         ${user.email}
        </div>
         <div class="text-light p-1"> 
-        with roles: ${user.roles}
+        with roles: ${user.roles.map(role => role.roleType).join(', ')}
         </div>`
     )
 }
@@ -49,7 +49,7 @@ function renderProfileTableData(user) {
         <td>${user.lastName}</td>
         <td>${user.age}</td>
         <td>${user.email}</td>
-        <td>${user.roles}</td>
+        <td>${user.roles.map(role => role.roleType).join(', ')}</td>
         </tr>`
     )
 }
@@ -64,7 +64,7 @@ function renderUsersTableData(users) {
             <td>${user.lastName}</td>
             <td>${user.age}</td>
             <td>${user.email}</td>
-            <td>${user.roles}</td>
+            <td>${user.roles.map(role => role.roleType).join(', ')}</td>
             <td>
                 <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target='#modalUser' 
                 data-userId=${user.id} data-target=${MODAL_TYPES.EDIT}>
@@ -85,11 +85,6 @@ function renderUsersTableData(users) {
         const user = users.find((user) => user.id === Number($(event.target).attr('data-userId')))
         const type = $(event.target).attr('data-target')
 
-        console.log($(event.target).attr('data-userId'))
-        console.log($(event.target).attr('data-target'))
-
-        console.log(user)
-
         renderModal(user, type)
     })
 }
@@ -100,11 +95,12 @@ function renderModal(user, type) {
     const select = modal.find('select')
     const title = $('#modalTitle')
     const submitBtn = $('#submitBtn')
+    submitBtn.off('click')
 
     let rolesHtml = ``
     ROLES.forEach(
         (role) =>
-            rolesHtml += `<option value=${role} ${user.roles.some((r) => r === role) ? `selected` : ``}>${role}</option>`
+            rolesHtml += `<option value=${role.roleType} ${user.roles.some((r) => r.roleType === role.roleType) ? `selected` : ``}>${role.roleType}</option>`
     )
 
     $('#modalUserRoles').html(rolesHtml)
@@ -120,7 +116,6 @@ function renderModal(user, type) {
             .on('click', (event) => {
                 event.preventDefault()
                 ApiService.deleteUser(user.id).then((res) => {
-                    console.log(res)
                     if (res) {
                         store.setUserList(store.getUserList().filter((u) => u.id !== user.id))
                         modal.modal('toggle')
@@ -140,8 +135,9 @@ function renderModal(user, type) {
                 const editedUser = new User()
                 const arrInput = inputs.toArray()
                 arrInput.forEach((input) => inputUserFieldsHandler(input, editedUser))
-                editedUser["roles"] = select.val()
-
+                editedUser['roles'] = select
+                    .val()
+                    .map(type => user.roles.filter(r => r.roleType === type)[0] || new Role(type))
                 ApiService.editUser(editedUser).then((res) => {
                     if (res) {
                         store.setUserList(store.getUserList().map((u) => u.id === editedUser.id ? editedUser : u))
@@ -162,7 +158,7 @@ function renderModal(user, type) {
 
 function renderNewUserForm() {
     let rolesHtml = ``
-    ROLES.forEach((role) => rolesHtml += `<option value="${role}">${role}</option>`)
+    ROLES.forEach((role) => rolesHtml += `<option value="${role.roleType}">${role.roleType}</option>`)
     $('#addUserRoles').html(rolesHtml)
 
     $('#newUserBtn').on(
@@ -174,7 +170,10 @@ function renderNewUserForm() {
             form
                 .find('input').toArray()
                 .forEach((input) => inputUserFieldsHandler(input, newUser))
-            newUser.roles = form.find('select').val()
+            newUser.roles = form
+                .find('select')
+                .val()
+                .map(type => new Role(type))
             ApiService.createUser(newUser).then((res) => {
                 if (res) {
                     store.setUserList([...store.getUserList(), res])
@@ -189,7 +188,7 @@ function renderNewUserForm() {
 }
 
 function tabsInitClasses() {
-    if (store.getProfile().roles.some((role) => role === 'ADMIN')) {
+    if (store.getProfile().roles.some((role) => role.roleType === 'ADMIN')) {
         $('#v-pills-admin-tab')
             .addClass('active')
             .attr('aria-selected', 'true')
